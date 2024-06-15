@@ -3,13 +3,14 @@ import os
 from io import BytesIO
 from queue import Queue
 import requests
+from flask import Flask, request
 from telegram import Bot, Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import CommandHandler, MessageHandler, Filters, CallbackQueryHandler, Dispatcher
 from movies_scraper import search_movies, get_movie
 
-TOKEN = os.getenv("6113676236:AAGcDNENDXtUSumWaIBV5PmQ6u0fA7nmCoM")
+TOKEN = "6113676236:AAGcDNENDXtUSumWaIBV5PmQ6u0fA7nmCoM"
 URL = "https://coruscating-centaur-f8adb1.netlify.app/"
-bot = Bot(6113676236:AAGcDNENDXtUSumWaIBV5PmQ6u0fA7nmCoM)
+bot = Bot(TOKEN)
 
 def welcome(update, context) -> None:
     update.message.reply_text(f"Hello {update.message.from_user.first_name}, Welcome to MoviesClubb 🎥.\n"
@@ -55,11 +56,26 @@ def setup():
     dispatcher.add_handler(CallbackQueryHandler(movie_result))
     return dispatcher
 
-def handler(event, context):
-    body = json.loads(event['body'])
-    update = Update.de_json(body, bot)
+def set_webhook():
+    webhook_url = f"{URL}/webhook"
+    response = bot.set_webhook(webhook_url)
+    if response:
+        print("Webhook set successfully")
+    else:
+        print("Failed to set webhook")
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return 'Hello World!'
+
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    update = Update.de_json(request.get_json(force=True), bot)
     setup().process_update(update)
-    return {
-        'statusCode': 200,
-        'body': json.dumps('ok')
-    }
+    return 'ok'
+
+if __name__ == "__main__":
+    set_webhook()
+    app.run()
