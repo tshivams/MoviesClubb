@@ -7,9 +7,9 @@ from telegram import Bot, Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import CommandHandler, MessageHandler, Filters, CallbackQueryHandler, Dispatcher
 from movies_scraper import search_movies, get_movie
 
-TOKEN = os.getenv("TOKEN")
+TOKEN = os.getenv("6113676236:AAGcDNENDXtUSumWaIBV5PmQ6u0fA7nmCoM")
 URL = "https://coruscating-centaur-f8adb1.netlify.app/"
-bot = Bot(TOKEN)
+bot = Bot(6113676236:AAGcDNENDXtUSumWaIBV5PmQ6u0fA7nmCoM)
 
 def welcome(update, context) -> None:
     update.message.reply_text(f"Hello {update.message.from_user.first_name}, Welcome to MoviesClubb 🎥.\n"
