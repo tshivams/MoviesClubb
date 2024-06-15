@@ -8,7 +8,7 @@ from telegram.ext import CommandHandler, MessageHandler, Filters, CallbackQueryH
 from movies_scraper import search_movies, get_movie
 
 TOKEN = os.getenv("TOKEN")
-URL = "https://your-netlify-site.netlify.app"
+URL = "https://coruscating-centaur-f8adb1.netlify.app/"
 bot = Bot(TOKEN)
 
 def welcome(update, context) -> None:
